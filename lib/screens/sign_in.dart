@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/text_field_input.dart';
 import '../screens/sing_up.dart';
+import '../services/auth_methods.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  final VoidCallback goToSignUp;
+  const LoginScreen({Key? key, required this.goToSignUp}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -22,8 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
   }
 
-  void loginUser() async {
-   
+  void loginUser(String email, String password) {
+    AuthMethods().signin(email, password);
   }
 
   @override
@@ -43,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SvgPicture.asset(
                 'assets/ic_instagram.svg',
-                color: Theme.of(context).primaryColor,
+                color: Colors.white,
                 height: 64,
               ),
               const SizedBox(
@@ -85,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Colors.blue,
                   ),
                 ),
-                onTap: loginUser,
+                onTap: () => loginUser(_emailController.text, _passwordController.text),
               ),
               const SizedBox(
                 height: 12,
@@ -99,16 +101,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Container(
                     child: const Text(
-                      'Dont have an account?',
+                      'Don\'t have an account?',
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 8),
                   ),
                   GestureDetector(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const SignUpScreen(),
-                      ),
-                    ),
+                    onTap: () => widget.goToSignUp(),
                     child: Container(
                       child: const Text(
                         'Signup.',
