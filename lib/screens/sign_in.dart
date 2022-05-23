@@ -51,11 +51,14 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 64,
               ),
+            
               TextFieldInput(
-                hintText: 'Enter your email',
-                textInputType: TextInputType.emailAddress,
-                textEditingController: _emailController,
-              ),
+                  
+                  hintText: 'Enter your email',
+                  textInputType: TextInputType.emailAddress,
+                  textEditingController: _emailController,
+                ),
+              
               const SizedBox(
                 height: 24,
               ),
@@ -72,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Container(
                   child: !_isLoading
                       ? const Text(
-                          'Log in',
+                          'Log in', style: TextStyle(color: Colors.white),
                         )
                       : const CircularProgressIndicator(
                           color: Colors.blueAccent,

@@ -41,7 +41,10 @@ class AuthMethods {
   Future sendEmail(User user) async
   {
     await user.sendEmailVerification();
+    
   }
+
+
 
   void signout() {
     auth.signOut();

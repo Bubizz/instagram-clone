@@ -16,32 +16,27 @@ class IsAuth extends StatefulWidget {
 
 class _IsAuthState extends State<IsAuth> {
   bool _showSignIn = true;
+  Timer? timer;
 
-  
+
+
   void toogleView() {
     setState(() {
       _showSignIn = !_showSignIn;
     });
   }
 
-  void listenToEmailVerification() 
-  {
-    Timer.periodic(const Duration(seconds: 6), (timer) {
-      print("ewe");
-       AuthMethods().currentUser.reload();
-             
-                if (AuthMethods().currentUser.emailVerified) 
-                {
-                  print("juz");
-                 
-                  setState(() {});
-                   timer.cancel();
-                }
-               
-              });
+ 
+
+  void listenToEmailVerification() {
+    timer = Timer.periodic(const Duration(seconds: 6), (timer) {
+      AuthMethods().currentUser.reload();
+      if (AuthMethods().currentUser.emailVerified) {
+        setState(() {});
+        timer.cancel();
+      }
+    });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +45,7 @@ class _IsAuthState extends State<IsAuth> {
         stream: AuthMethods().auth.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
+            timer?.cancel();
             return _showSignIn
                 ? LoginScreen(
                     goToSignUp: toogleView,
@@ -58,17 +54,16 @@ class _IsAuthState extends State<IsAuth> {
                     goToSignIn: toogleView,
                   );
           } else if ((snapshot.data as User).emailVerified) {
+            timer?.cancel();
             return Text("authethicated");
           } else {
-           
             var user = snapshot.data as User;
             user.sendEmailVerification().then((_) {
-             
               listenToEmailVerification();
-              
             });
-
-            return CheckInbox(email: user.email!,);
+            return CheckInbox(
+              email: user.email!,
+            );
           }
         });
   }
