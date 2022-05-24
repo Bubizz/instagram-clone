@@ -1,19 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'db_methods.dart';
 
 class AuthMethods {
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future<void> signup(String email, String password) async {
+  Future<void> signup(String username, String fullname, String email, String password) async {
     try {
-      final UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+      await dbMethods().addUserInfoToDB(uid: currentUser.uid, username: username);
+      await currentUser.updateDisplayName(fullname);
+
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        throw Exception('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
+
+      if (e.code == 'email-already-in-use') {
         throw Exception("email is already in use");
       }
-    } catch (e) {
+    } catch (e) 
+    {
       rethrow;
     }
   }
@@ -25,14 +29,16 @@ class AuthMethods {
 
   Future<void> signin(String email, String password) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: email,
-              password: password);
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email,password: password);
+
     } on FirebaseAuthException catch (e) {
+
       if (e.code == 'user-not-found') {
+
         print('No user found for that email.');
+
       } else if (e.code == 'wrong-password') {
+
         print('Wrong password provided for that user.');
       }
     }

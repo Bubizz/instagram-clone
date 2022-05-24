@@ -5,8 +5,8 @@ class dbMethods {
 
   Future<bool> isUsernameAvailable(String username) async {
     try {
-      var user = await users.doc(username).get(const GetOptions(source: Source.server));
-      if (user.exists) {
+      var usersdocs = await users.where("username", isEqualTo: username).get(const GetOptions(source: Source.server));
+      if (usersdocs.docs.isNotEmpty) {
         return false;
       }
     } catch (e) {
@@ -16,11 +16,18 @@ class dbMethods {
     return true;
   }
 
-  Future addUserInfoToDB(String username, String fullName) async {
+  Future addUserInfoToDB({required String uid, required String username} ) async {
     var userInfo = {
-      'fullName': fullName,
+      'username': username,
     };
+    try
+    {
+    await users.doc(uid).set(userInfo);
+    }
+    catch (e)
+    {
+      rethrow;
+    }
 
-    await users.doc(username).set(userInfo);
   }
 }

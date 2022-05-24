@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:instagram/services/auth_methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:instagram/services/auth_methods.dart';
 import 'package:provider/provider.dart';
 class Profile extends StatelessWidget {
   const Profile({ Key? key }) : super(key: key);
@@ -31,22 +31,26 @@ class Profile extends StatelessWidget {
                 ],
                 
               ),
-              Spacer(flex: 2,),
+              const Spacer(flex: 2,),
               Column(children: [
                 Text("0", style: Theme.of(context).textTheme.bodyLarge),
                 Text("Posty")
               ],),
-               Spacer(flex: 1,),
+               const Spacer(flex: 1,),
                Column(children: [
                 Text("0", style: Theme.of(context).textTheme.bodyLarge,),
                 Text("Obserwu...")
               ],),
-                Spacer(flex: 1,),
+                const Spacer(flex: 1,),
                Column(children: [
                 Text("0", style: Theme.of(context).textTheme.bodyLarge),
                 Text("Obserwu...")
               ],)
             ],),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(onPressed: () {AuthMethods().signout();}, child: const Text("Edit profile"), style: ElevatedButton.styleFrom(side: const BorderSide(color: Colors.grey)))
+              )
           
             
             

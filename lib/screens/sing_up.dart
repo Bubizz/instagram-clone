@@ -34,21 +34,32 @@ class _SignUpState extends State<SignUpScreen> {
     bool isAvailable;
 
     try {
+
       isAvailable = await dbMethods().isUsernameAvailable(_username);
 
       if (isAvailable) {
-        await AuthMethods()
-            .signup(_emailController.text, _passwordController.text);
 
-        await AuthMethods().currentUser.updateDisplayName(_fullnameController.text);
+        await AuthMethods().signup(_usernameController.text, _fullnameController.text,  _emailController.text, _passwordController.text);
 
-        await dbMethods().addUserInfoToDB(_username, _fullnameController.text);
       } else {
         setState(() {
           _showUsernameTakenMsg = true;
         });
       }
-    } catch (e) {
+    } on Exception catch (e)
+    {
+      if(e.toString() == "Exception: email is already in use")
+      {
+        var snackBar = SnackBar(
+        content: const Text('E-mail is already taken'),
+        backgroundColor: Colors.green[600],
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    
+
+      }
+    }
+    catch (e) {
       var snackBar = SnackBar(
         content: const Text('Something went wrong'),
         backgroundColor: Colors.green[600],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instagram/screens/authethicated/tabs/profile.dart';
 import 'package:instagram/screens/authethicated/tabs/search.dart';
 import 'package:instagram/screens/authethicated/tabs/welcome.dart';
@@ -43,8 +45,8 @@ class _TabSwitcherState extends State<TabSwitcher> {
           selectedFontSize: 0.0,
           unselectedFontSize: 0.0,
           backgroundColor: const Color.fromARGB(255, 53, 51, 51),
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
+          items:  <BottomNavigationBarItem>[
+            const BottomNavigationBarItem(
               label: '',
               activeIcon: Icon(
                 Icons.home,
@@ -55,7 +57,7 @@ class _TabSwitcherState extends State<TabSwitcher> {
                 
               ),
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               label: '',
               activeIcon: Icon(
                 Icons.search,
@@ -68,15 +70,12 @@ class _TabSwitcherState extends State<TabSwitcher> {
             ),
             BottomNavigationBarItem(
               label: '',
-              activeIcon: Icon(
-                Icons.home,
-              
+              icon: CircleAvatar(backgroundImage: NetworkImage(Provider.of<User>(context).photoURL ?? 'https://unitycharity.com/wp-content/uploads/2015/09/wallpaper-for-facebook-profile-photo-1.jpg',),   radius: 16.0, ),
+              activeIcon: Container(
+                decoration: BoxDecoration(border: Border.all(color: Colors.white), borderRadius: const BorderRadius.all(Radius.circular(100)),),
+                child: CircleAvatar(backgroundImage: NetworkImage(Provider.of<User>(context).photoURL ?? 'https://unitycharity.com/wp-content/uploads/2015/09/wallpaper-for-facebook-profile-photo-1.jpg',),   radius: 16.0, )),
               ),
-              icon: Icon(
-                Icons.home_max_outlined,
-                
-              ),
-            ),
+            
           ],
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
