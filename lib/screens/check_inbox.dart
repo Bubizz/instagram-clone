@@ -14,7 +14,7 @@ class CheckInbox extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           children: [
-            SizedBox(child: SvgPicture.asset("assets/email.svg", color: Color.fromARGB(244, 249, 230, 253),), height: 130,),
+            SizedBox(child: SvgPicture.asset("assets/email.svg", color: const Color.fromARGB(244, 249, 230, 253),), height: 130,),
             const SizedBox(height: 20,),
             Text('Enter the link we sent to ', style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 26, color: const Color.fromARGB(255, 233, 180, 197), fontWeight: FontWeight.normal)),
             Center(child: Text(email, style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 26, color: const Color.fromARGB(255, 233, 180, 197), fontWeight: FontWeight.bold))),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/text_field_input.dart';
-import '../screens/sing_up.dart';
 import '../services/auth_methods.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   @override
   void dispose() {

@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram/services/auth_methods.dart';
 import 'package:instagram/services/db_methods.dart';
-import '../widgets/text_field_input.dart';
 
 class SignUpScreen extends StatefulWidget {
   final VoidCallback goToSignIn;
@@ -41,6 +39,8 @@ class _SignUpState extends State<SignUpScreen> {
       if (isAvailable) {
         await AuthMethods()
             .signup(_emailController.text, _passwordController.text);
+
+        await AuthMethods().currentUser.updateDisplayName(_fullnameController.text);
 
         await dbMethods().addUserInfoToDB(_username, _fullnameController.text);
       } else {

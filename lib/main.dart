@@ -3,9 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
 import 'package:instagram/screens/is_auth.dart';
-import 'package:instagram/services/auth_methods.dart';
-import 'package:provider/provider.dart';
-import 'screens/sign_in.dart';
 
 
 void main() async {
@@ -21,10 +18,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
    return MaterialApp(
      theme: ThemeData.dark().copyWith(
-       scaffoldBackgroundColor: Color.fromARGB(158, 48, 47, 47),
+       scaffoldBackgroundColor: const Color.fromARGB(158, 48, 47, 47),
        textTheme: TextTheme(
          
-         bodyMedium: TextStyle(color: Colors.blue[600])
+         bodyMedium: TextStyle(color: Colors.blue[600]),
+         bodyLarge: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)
        )
      ),
      routes: {"isauth" : (_) => const IsAuth(),

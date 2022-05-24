@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram/screens/authethicated/tab_switcher.dart';
 import 'package:instagram/screens/check_inbox.dart';
 import 'package:instagram/screens/sign_in.dart';
 import 'package:instagram/screens/sing_up.dart';
+import 'package:provider/provider.dart';
 import '../services/auth_methods.dart';
 
 class IsAuth extends StatefulWidget {
@@ -55,7 +57,7 @@ class _IsAuthState extends State<IsAuth> {
                   );
           } else if ((snapshot.data as User).emailVerified) {
             timer?.cancel();
-            return Text("authethicated");
+            return Provider.value(value: AuthMethods().currentUser, child: const TabSwitcher());
           } else {
             var user = snapshot.data as User;
             user.sendEmailVerification().then((_) {
