@@ -6,6 +6,7 @@ import 'package:instagram/screens/authethicated/tab_switcher.dart';
 import 'package:instagram/screens/check_inbox.dart';
 import 'package:instagram/screens/sign_in.dart';
 import 'package:instagram/screens/sing_up.dart';
+import 'package:instagram/services/db_methods.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_methods.dart';
 
@@ -57,7 +58,13 @@ class _IsAuthState extends State<IsAuth> {
                   );
           } else if ((snapshot.data as User).emailVerified) {
             timer?.cancel();
-            return Provider.value(value: AuthMethods().currentUser, child: const TabSwitcher());
+            return MultiProvider(providers: 
+            [
+              Provider.value(value: AuthMethods().currentUser),
+              FutureProvider.value(value: dbMethods().fetchUsername(id: AuthMethods().currentUser.uid), initialData: null)
+
+            ],
+            child: const TabSwitcher());
           } else {
             var user = snapshot.data as User;
             user.sendEmailVerification().then((_) {

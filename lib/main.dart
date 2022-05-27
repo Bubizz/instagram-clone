@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
    return MaterialApp(
      theme: ThemeData.dark().copyWith(
        scaffoldBackgroundColor: const Color.fromARGB(158, 48, 47, 47),
+       canvasColor: const Color.fromARGB(0, 0, 0, 0),
        textTheme: TextTheme(
          
          bodyMedium: TextStyle(color: Colors.blue[600]),

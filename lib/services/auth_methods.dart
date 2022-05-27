@@ -8,7 +8,7 @@ class AuthMethods {
     try {
 
       await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-      await dbMethods().addUserInfoToDB(uid: currentUser.uid, username: username);
+      dbMethods().addUserInfoToDB(uid: currentUser.uid, username: username);
       await currentUser.updateDisplayName(fullname);
 
     } on FirebaseAuthException catch (e) {
@@ -35,11 +35,11 @@ class AuthMethods {
 
       if (e.code == 'user-not-found') {
 
-        print('No user found for that email.');
+    
 
       } else if (e.code == 'wrong-password') {
 
-        print('Wrong password provided for that user.');
+        
       }
     }
   }

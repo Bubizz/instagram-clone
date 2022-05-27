@@ -30,4 +30,14 @@ class dbMethods {
     }
 
   }
+
+  Future<String?> fetchUsername({required String id}) async
+  {
+    var snapshot = await users.doc(id).get();
+
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+   
+    return data["username"];
+
+  }
 }

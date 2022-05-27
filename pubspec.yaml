@@ -38,6 +38,7 @@ dependencies:
   flutter_svg: ^1.0.3
 
   image_picker: ^0.8.5
+  modal_bottom_sheet: ^2.0.1
   provider: ^6.0.2
 
 
