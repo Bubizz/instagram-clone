@@ -14,7 +14,7 @@ class Profile extends StatelessWidget {
           isScrollControlled: true,
             context: context,
             builder: (builder){
-              return const MyBottomSheet();
+              return MyBottomSheet();
             }
         );   
   }
@@ -82,27 +82,3 @@ class Profile extends StatelessWidget {
     
   }
 }
-/*void _addPost(BuildContext context)
-  {
- 
-        showModalBottomSheet(
-            context: context,
-            builder: (builder){
-              return Container(
-                height: 350.0,
-                color: Color.fromARGB(0, 0, 0, 0), //could change this to Color(0xFF737373), 
-                           //so you don't have to change MaterialApp canvasColor
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(100.0),
-                            topRight: const Radius.circular(100.0))),
-                    child: new Center(
-                      child: new Text("This is a modal sheet"),
-                    )),
-              );
-            }
-        );
-      
-  } */
