@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:instagram/screens/authethicated/new_post/image_gallery_picker.dart';
 import 'package:instagram/services/auth_methods.dart';
 
 class MyBottomSheet extends StatelessWidget {
@@ -10,29 +10,21 @@ class MyBottomSheet extends StatelessWidget {
 
   Future _pickImage(context) async 
   {
-    XFile? image;
-    try
-    {
-       image = await ImagePicker().pickImage(source: ImageSource.camera);
-    }
-    catch(e)
-    {
-      showDialog(context: context, builder: (context) {return AlertDialog(
-          actions: [
-            Center(child: GestureDetector(child:  Text("OK", style: Theme.of(context).textTheme.bodyMedium!), onTap: () => Navigator.of(context).pop(),))],
-          content: const Text("Failed to pick an image"),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ));});
-    }
-    if(image == null)
-    {
-      return;
-    }  
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return MediaGrid();
+    }));
+ 
+    /*var time = DateTime.now().millisecondsSinceEpoch.toString();
     final ref = FirebaseStorage.instance
-          .ref(AuthMethods().currentUser.uid)
-          .child('posts/');
-    ref.putFile(File(image.path));
+          .ref('posts')
+          .child(AuthMethods().currentUser.uid).child(time).child(image.name);
+    await ref.putFile(File(image.path));
+    String url = (await ref.getDownloadURL()).toString();
+    print(url);*/
+
+    
+
+   
 
     
     
@@ -40,8 +32,6 @@ class MyBottomSheet extends StatelessWidget {
 
 
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
