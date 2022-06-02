@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:instagram/screens/authethicated/new_post/add_caption.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -10,7 +11,7 @@ class MediaGrid extends StatefulWidget {
 }
 
 class _MediaGridState extends State<MediaGrid> {
-  Uint8List? image;
+  File? image;
   final _pagingController = PagingController<int, AssetEntity>(
     firstPageKey: 0,
   );
@@ -62,7 +63,7 @@ class _MediaGridState extends State<MediaGrid> {
               color: Colors.blue,
               icon: const Icon(Icons.arrow_forward),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) {return AddImgCaption(imgBytes: image!);}));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {return AddImgCaption(image: image!);}));
               },
             ))
           ],),
@@ -78,10 +79,7 @@ class _MediaGridState extends State<MediaGrid> {
                   width: 50,
                   height: 50,
                 ))
-              : Image.memory(
-                  image!,
-                  fit: BoxFit.cover,
-                ),
+              : Image.file(image!, fit: BoxFit.fill,)
         ),
         Expanded(
           child: PagedGridView(
@@ -97,12 +95,13 @@ class _MediaGridState extends State<MediaGrid> {
                     if (snapshot.connectionState == ConnectionState.done) {
                       return GestureDetector(
                         onTap: () {
-                          item.originBytes.then((value) {
+                          item.file.then((value) {
                             setState(() {
                               image = value;
                             });
                           });
                         },
+                       
                         child: Image.memory(
                           snapshot.data as Uint8List,
                           fit: BoxFit.cover,

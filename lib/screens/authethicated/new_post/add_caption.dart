@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'dart:typed_data';
+import 'dart:io';
+import '../../../services/auth_methods.dart';
+
+import 'package:instagram/services/db_methods.dart';
 
 class AddImgCaption extends StatelessWidget {
-  const AddImgCaption({Key? key, required this.imgBytes}) : super(key: key);
-  final Uint8List imgBytes;
+  AddImgCaption({Key? key, required this.image}) : super(key: key);
+  final File image;
+  final TextEditingController controlText = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +22,7 @@ class AddImgCaption extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop();
+
           },
         ),
         actions: [
@@ -25,6 +31,8 @@ class AddImgCaption extends StatelessWidget {
             color: Colors.blue,
             icon: const Icon(Icons.check, color: Colors.blue),
             onPressed: () {
+              dbMethods().uploadPost(authorUID: AuthMethods().currentUser.uid, description: controlText.text, imageToSend: image);
+              Navigator.of(context).pop();
               Navigator.of(context).pop();
             },
           ))
@@ -37,20 +45,22 @@ class AddImgCaption extends StatelessWidget {
             SizedBox(
                 width: 120,
                 height: 150,
-                child: Image.memory(
-                  imgBytes,
+                child: Image.file(
+                  image,
                   fit: BoxFit.fill,
                 )),
             const SizedBox(width: 25,),
-            const Expanded(
+            Expanded(
                 child: TextField(
-              decoration: InputDecoration(
+              controller: controlText,
+              decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintStyle: TextStyle(color: Colors.grey,),
                 hintText: 'Write a caption...',
               ),
               maxLines: null,
-            ))
+            )),
+       
           ],
         ),
       ),

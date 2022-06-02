@@ -54,5 +54,6 @@ class AuthMethods {
 
   void signout() {
     auth.signOut();
+    
   }
 }
