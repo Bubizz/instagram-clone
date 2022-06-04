@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
+import '../models/app_user.dart';
 
 class dbMethods {
   CollectionReference users = FirebaseFirestore.instance.collection("users");
@@ -20,9 +21,14 @@ class dbMethods {
     return true;
   }
 
-  Future addUserInfoToDB({required String uid, required String username} ) async {
+  Future addUserInfoToDB({required String uid, required String username, required String fullname} ) async {
     var userInfo = {
       'username': username,
+      'followers' : 0,
+      'following' : 0,
+      'uid' : uid,
+      'fullname' : fullname
+
     };
     try
     {
@@ -83,6 +89,27 @@ class dbMethods {
     };
 
     posts.doc(postID).set(postInfo);
+
+  }
+
+  Future<List<AppUser>> findUsers(String name) async
+  { 
+    var list = <AppUser>[];
+    var query = await FirebaseFirestore.instance
+      .collection('users')
+      .orderBy('username')
+      .startAt([name])
+      .endAt([name + '\uf8ff']).get();
+
+    query.docs.forEach((element) {
+      print(element.data());
+      list.add(AppUser.fromJSON(element.data()));
+      ;});
+
+    return list;
+
+
+
 
   }
 }

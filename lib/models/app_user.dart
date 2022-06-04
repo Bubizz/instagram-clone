@@ -2,11 +2,18 @@
 class AppUser
 {
   String uid;
-  String photoURL;
-  String email;
-  bool emailverified;
+  String fullname;
+  String username;
+  int followers;
+  int following;
 
-  AppUser({required this.uid, required this.photoURL, required this.email, required this.emailverified});
+  AppUser(this.uid, this.fullname, this.username, this.followers, this.following);
+
+  factory AppUser.fromJSON(Map<String, dynamic> map) {
+    return AppUser(map['uid'], map['fullname'] , map['username'], map['followers'], map['following']);
+  }
+
+
 
 
 }

@@ -18,7 +18,7 @@ class _TabSwitcherState extends State<TabSwitcher> {
   var pages = 
   [
     const WelcomePage(),
-    const SearchScreen(),
+    SearchScreen(),
     const Profile()
   ];
 

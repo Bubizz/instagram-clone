@@ -8,7 +8,7 @@ class AuthMethods {
     try {
 
       await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-      dbMethods().addUserInfoToDB(uid: currentUser.uid, username: username);
+      dbMethods().addUserInfoToDB(uid: currentUser.uid, username: username, fullname: fullname);
       await currentUser.updateDisplayName(fullname);
 
     } on FirebaseAuthException catch (e) {
