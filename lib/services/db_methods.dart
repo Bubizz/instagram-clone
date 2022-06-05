@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:instagram/models/post.dart';
 import 'package:uuid/uuid.dart';
 import '../models/app_user.dart';
 
@@ -102,14 +103,29 @@ class dbMethods {
       .endAt([name + '\uf8ff']).get();
 
     query.docs.forEach((element) {
-      print(element.data());
+   
       list.add(AppUser.fromJSON(element.data()));
-      ;});
+      });
 
     return list;
+  }
 
+   Future<List<Post>> fetchPosts(String uid) async
+  {
+    
+    var userPosts = await posts.where('author', isEqualTo:  uid).get();
 
+    var listOfPost = <Post>[];
 
+    for(var post in userPosts.docs)
+    {
+     (post.data() as Map<String, dynamic>).forEach((key, value) {print(value.runtimeType); print(value); print(key); });
 
+      listOfPost.add(Post.fromJSON(post.data() as Map<String, dynamic>));
+    }
+
+    return listOfPost;
+    
+    
   }
 }

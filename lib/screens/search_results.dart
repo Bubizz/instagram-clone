@@ -76,7 +76,7 @@ class _SearchResultsState extends State<SearchResults> {
                     itemCount: _searchedUsers.length,
                     itemBuilder: (context, index) {
                       return UserListTile(
-                          username: _searchedUsers[index].username, fullname: _searchedUsers[index].fullname);
+                          user: _searchedUsers[index]);
                           
                     }))
           ],
