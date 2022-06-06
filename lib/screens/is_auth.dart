@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/screens/authethicated/tab_switcher.dart';
-import 'package:instagram/screens/check_inbox.dart';
-import 'package:instagram/screens/sign_in.dart';
-import 'package:instagram/screens/sing_up.dart';
+import 'package:instagram/screens/sign_in&up/check_inbox.dart';
+import 'package:instagram/screens/sign_in&up/sign_in.dart';
+import 'package:instagram/screens/sign_in&up/sing_up.dart';
 import 'package:instagram/services/db_methods.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_methods.dart';
@@ -61,7 +61,7 @@ class _IsAuthState extends State<IsAuth> {
             return MultiProvider(providers: 
             [
               Provider.value(value: AuthMethods().currentUser),
-              FutureProvider.value(value: dbMethods().fetchUsername(id: AuthMethods().currentUser.uid), initialData: null)
+              FutureProvider.value(value: dbMethods().fetchUsername(id: AuthMethods().currentUser.uid), initialData: null,)
 
             ],
             child: const TabSwitcher());

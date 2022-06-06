@@ -79,7 +79,7 @@ class _MediaGridState extends State<MediaGrid> {
                   width: 50,
                   height: 50,
                 ))
-              : Image.file(image!, fit: BoxFit.fill,)
+              : Image.file(image!, fit: BoxFit.cover,)
         ),
         Expanded(
           child: PagedGridView(

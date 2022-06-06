@@ -34,7 +34,7 @@ class _SearchResultsState extends State<SearchResults> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
-                        color: Color.fromARGB(255, 212, 212, 212),
+                        color: const Color.fromARGB(255, 212, 212, 212),
                       ),
                       height: 40,
                       child: Row(

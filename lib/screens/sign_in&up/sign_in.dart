@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../widgets/text_field_input.dart';
-import '../services/auth_methods.dart';
+import '../../widgets/text_field_input.dart';
+import '../../services/auth_methods.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback goToSignUp;

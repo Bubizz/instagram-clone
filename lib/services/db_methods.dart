@@ -42,7 +42,7 @@ class dbMethods {
 
   }
 
-  Future<String?> fetchUsername({required String id}) async
+  Future<String> fetchUsername({required String id}) async
   {
     var snapshot = await users.doc(id).get();
 
@@ -62,7 +62,7 @@ class dbMethods {
     }
     catch (e)
     {
-      print('błąd');
+    
       rethrow;
     }
   
@@ -70,7 +70,7 @@ class dbMethods {
 
   }
 
-  Future uploadPost({ required  String authorUID, required String description, required File imageToSend  }) async
+  Future uploadPost({ required  String authorUID, required String description, required File imageToSend, }) async
   {
     var postID = const Uuid().v1();
     late String imgUrl;
@@ -83,10 +83,13 @@ class dbMethods {
     throw Exception();
   }
   var postInfo = {
+      'postId' : postID,
       'description': description,
       'author' : authorUID,
       'creationDate' : DateTime.now(),
       'imgUrl' : imgUrl,
+      'likes' : [],
+    
     };
 
     posts.doc(postID).set(postInfo);
@@ -119,8 +122,8 @@ class dbMethods {
 
     for(var post in userPosts.docs)
     {
-     (post.data() as Map<String, dynamic>).forEach((key, value) {print(value.runtimeType); print(value); print(key); });
-
+   
+      print(post.data());
       listOfPost.add(Post.fromJSON(post.data() as Map<String, dynamic>));
     }
 
@@ -128,4 +131,23 @@ class dbMethods {
     
     
   }
+
+  Future likePost(String postId, String userId) async
+  {
+    var data = await posts.doc(postId).get();
+    var post =  Post.fromJSON(data.data() as Map<String, dynamic>);
+    if(post.likes.contains(userId))
+    {
+      posts.doc(postId).update({'likes' : FieldValue.arrayUnion([userId])});
+    }
+    else
+    {
+      posts.doc(postId).update({'likes' : FieldValue.arrayRemove([userId])});
+    }
+    
+
+    
+  }
+
+   
 }

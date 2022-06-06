@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagram/models/app_user.dart';
+import 'package:instagram/screens/post_details.dart';
 import 'package:instagram/services/db_methods.dart';
 import '../models/post.dart';
 
@@ -12,10 +13,12 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
+ 
   var posts = <Post>[];
 
   @override
   void initState() {
+  
     dbMethods().fetchPosts(widget.user.uid).then((value) {
       setState(() {
         posts = value;
@@ -29,87 +32,90 @@ class _UserProfileState extends State<UserProfile> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.user.username)),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+        children: [
+          Column(
               children: [
-                Column(
-                  children: [
-                    const CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        'https://unitycharity.com/wp-content/uploads/2015/09/wallpaper-for-facebook-profile-photo-1.jpg',
-                      ),
-                      radius: 46.0,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      widget.user.fullname,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ],
+                const CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    'https://unitycharity.com/wp-content/uploads/2015/09/wallpaper-for-facebook-profile-photo-1.jpg',
+                  ),
+                  radius: 46.0,
                 ),
-                const Spacer(
-                  flex: 2,
+                const SizedBox(
+                  height: 10,
                 ),
-                Column(
-                  children: [
-                    Text("0", style: Theme.of(context).textTheme.bodyLarge),
-                    const Text("Posts")
-                  ],
+                Text(
+                  widget.user.fullname,
+                  style: const TextStyle(color: Colors.white),
                 ),
-                const Spacer(
-                  flex: 1,
-                ),
-                Column(
-                  children: [
-                    Text(
-                      widget.user.followers.toString(),
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    const Text("Followers")
-                  ],
-                ),
-                const Spacer(
-                  flex: 1,
-                ),
-                Column(
-                  children: [
-                    Text(widget.user.followers.toString(),
-                        style: Theme.of(context).textTheme.bodyLarge),
-                    const Text("Following")
-                  ],
-                )
               ],
+          ),
+          const Spacer(
+              flex: 2,
+          ),
+          Column(
+              children: [
+                Text(posts.length.toString(), style: Theme.of(context).textTheme.bodyLarge),
+                const Text("Posts")
+              ],
+          ),
+          const Spacer(
+              flex: 1,
+          ),
+          Column(
+              children: [
+                Text(
+                  widget.user.followers.toString(),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const Text("Followers")
+              ],
+          ),
+          const Spacer(
+              flex: 1,
+          ),
+          Column(
+              children: [
+                Text(widget.user.followers.toString(),
+                    style: Theme.of(context).textTheme.bodyLarge),
+                const Text("Following")
+              ],
+          )
+        ],
+              ),
             ),
             FractionallySizedBox(
-              widthFactor: 0.3,
-              child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Follow"),
-                  style: ElevatedButton.styleFrom(
-                      side: const BorderSide(color: Colors.grey))),
+        widthFactor: 0.3,
+        child: ElevatedButton(
+            onPressed: () {},
+            child: const Text("Follow"),
+            style: ElevatedButton.styleFrom(
+                side: const BorderSide(color: Colors.grey))),
             ),
             Expanded(
-                child: GridView.builder(
-                    itemCount: posts.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
+          child: GridView.builder(
+              itemCount: posts.length,
+              gridDelegate:
+                  const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+              ),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {return PostDetails(post: posts[index], username: widget.user.username,);}));
+                  },
+                  child: Image.network(
+                      posts[index].imageUrl,
+                      fit: BoxFit.cover,
                     ),
-                    itemBuilder: (context, index) {
-                      return Container(
-                        child: Image.network(
-                          posts[index].imageUrl,
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    }))
+                );
+                
+              }))
           ]),
-        ),
       ),
     );
   }
